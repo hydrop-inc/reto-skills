@@ -57,7 +57,7 @@ Y con tu campaña activa, **todos los días**: `/reto-4-optimizacion`
 Cuando mejoremos las skills, actualiza con:
 
 ```
-/plugin update reto
+/plugin update reto@hydrop-reto
 ```
 
 (y reinicia Claude Code para aplicar).
