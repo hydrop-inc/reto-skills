@@ -40,14 +40,32 @@ Llamá `okto_account_status`. Si responde → anotá el plan y el uso/límite de
 imágenes IA que venga dentro del campo `uso` (usá los nombres que devuelva
 la herramienta, no los inventes). **Si el plan tiene menos de 21 imágenes
 disponibles, avisá ANTES de cerrar este paso:** el reto usa 21 por producto
-(16 de página + 5 de anuncio) — que suba de plan ahora o lo asuma. Si NO
-responde o la herramienta no existe:
+(16 de página + 5 de anuncio) — que suba de plan ahora o lo asuma.
 
-> Te falta conectar Oktopus a Claude. Andá a tu cuenta de Oktopus →
-> Configuración → Integraciones → MCP, copiá tu API key y conectala.
-> Cuando esté, volvé a escribir `/reto-0-requisitos`.
+**Si NO responde o la herramienta no existe → conectala VOS por el alumno:**
+
+1. Decile: *"Te falta conectar Oktopus. Andá a tu cuenta de Oktopus →
+   **Configuración → Plataforma de agentes → API keys** y generá una clave
+   tipo `secret` con alcance `mcp:invoke` (empieza con `okto_live_secret_`).
+   Pegámela acá y yo te la conecto."*
+2. Con la key, ejecutá vos el comando (sin repetir la key en pantalla):
+   ```
+   claude mcp add --transport http oktopus https://www.oktopus.lat/api/mcp --header "Authorization: Bearer LA_KEY"
+   ```
+3. Decile que **cierre y vuelva a abrir Claude Code** y escriba
+   `/reto-0-requisitos` de nuevo — la conexión carga al reiniciar.
+
+Los pasos siempre actualizados viven en **oktopus.lat/docs/quickstart** —
+si el comando de arriba fallara, consultá esa página en vivo y seguí lo que
+diga ahí (es la fuente de verdad, no este archivo).
 
 **No sigas sin esto.** Todo lo demás depende de acá.
+
+💬 **Regla de soporte (para todo el reto):** si algo de Oktopus falla o se
+comporta raro, usá la herramienta `okto_support_ask` — le pregunta
+directamente al soporte oficial de Oktopus y trae la respuesta. El alumno
+no tiene que salir a buscar dónde reportar: te lo dice a vos y vos lo
+canalizás.
 
 ### 2. Cuenta Dropi bajo el link de la comunidad
 

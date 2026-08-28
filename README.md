@@ -27,7 +27,7 @@ Esteban estuviera sentado al lado tuyo.
 | 1 | Cuenta de **Dropi** con el link de la comunidad | dropi.oktopus.lat |
 | 2 | Cuenta de **Oktopus** con tu tienda creada en TU país | oktopus.lat |
 | 3 | Dropi **conectado** a tu tienda de Oktopus | Oktopus → Configuración |
-| 4 | **MCP de Oktopus** conectado a Claude | Oktopus → Configuración → Integraciones → MCP |
+| 4 | **MCP de Oktopus** conectado a Claude | No te estreses: `/reto-0-requisitos` te lo conecta — solo necesitas tu API key de Oktopus (Configuración → Plataforma de agentes → API keys). Guía completa: [oktopus.lat/docs/quickstart](https://oktopus.lat/docs/quickstart) |
 | 5 | **Conector oficial de Meta Ads** conectado | claude.ai → Ajustes → Conectores → "Meta Ads" (con TU Facebook) |
 | 6 | En tu Facebook: página, Instagram conectado, Business Manager, **pixel creado** y **cuenta publicitaria con método de pago** | business.facebook.com |
 
@@ -71,6 +71,13 @@ Cuando mejoremos las skills, actualiza con:
    lo que la IA dice, y las que le dicen a la IA qué hacer.
 3. **El ROAS de Meta no es tu plata.** En contra entrega solo cobras lo que
    se entrega.
+
+## ¿Algo de Oktopus falla?
+
+Díselo a Claude tal cual ("no me carga la landing", "me da error al
+importar") — las skills usan el canal oficial de soporte de Oktopus y te
+traen la respuesta en la misma conversación. Documentación completa:
+[oktopus.lat/docs](https://oktopus.lat/docs)
 
 ---
 

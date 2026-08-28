@@ -46,3 +46,8 @@ Si hay campañas ACTIVAS, agregá el mini-informe de operación:
 - Y el empujón: la rutina diaria de campañas activas es
   `/reto-4-optimizacion` — si el último registro del ledger tiene más de un
   día, recordáselo.
+
+Si el alumno reporta un problema DE Oktopus (algo que no carga, un error de
+la plataforma), canalizalo con `okto_support_ask` — es el canal oficial de
+soporte y responde en la misma conversación. La documentación viva está en
+oktopus.lat/docs.
