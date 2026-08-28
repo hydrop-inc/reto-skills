@@ -1,0 +1,26 @@
+{
+  "name": "hydrop-reto",
+  "owner": {
+    "name": "Hydrop"
+  },
+  "metadata": {
+    "description": "Skills oficiales del Reto de 0 a 5 Millones — monta y opera tu tienda de dropshipping contra entrega con Oktopus, Dropi y Meta Ads, guiado paso a paso.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "reto",
+      "description": "El mentor del Reto de 0 a 5 Millones: verifica tus requisitos, importa tu producto de Dropi a Oktopus con precio inteligente, crea tu landing con pixel, arma tu banco de creativos y copies, sube tus campañas a Meta (siempre pausadas) y te acompaña en la optimización diaria.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/reto-0-requisitos",
+        "./skills/reto-1-producto",
+        "./skills/reto-2-creativos",
+        "./skills/reto-3-campana",
+        "./skills/reto-4-optimizacion",
+        "./skills/reto-diagnostico"
+      ]
+    }
+  ]
+}
