@@ -19,6 +19,8 @@ donde se gana o se pierde la plata.
    gastar el presupuesto de 24 → arranca desoptimizada y quema plata. La
    skill NUNCA sube presupuesto fuera de ese horario: si el alumno lo pide a
    las 3 pm, se agenda la instrucción para la noche y se le dice por qué.
+   (Las campañas del reto ya nacen programadas para las 4:44 a.m. — si se
+   crea o reactiva una a mano, se programa igual, nunca arranque inmediato.)
 3. **Todo cambio de presupuesto y todo apagado se confirma con el alumno**
    mostrando el dato que lo justifica. Nada se toca en silencio.
 4. Las métricas siempre se leen **con el filtro de fecha en HOY** (y ayer

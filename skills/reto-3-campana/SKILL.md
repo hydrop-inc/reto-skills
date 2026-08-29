@@ -22,12 +22,24 @@ description: "Paso 3 del Reto de 0 a 5 Millones: sube la campaña de Meta con la
      Administrador de anuncios — NUNCA asumir).
    - Después de crear, RELEER la campaña y mostrarle al alumno el
      presupuesto que Meta guardó, en plata normal ("$30.000 COP por día").
-     Si no coincide con lo acordado → corregir antes de seguir.
-3. **El MCP oficial NO tiene modo de prueba (dry_run).** La validación es en
+   - **PASÓ DE VERDAD (28-ago-2026):** en una corrida real la campaña quedó
+     creada con **$3.000.000 COP diarios en vez de $30.000** — cien veces el
+     presupuesto, sin ningún error en pantalla. Por eso la relectura NO es
+     opcional: si el número mostrado no coincide con lo acordado, se corrige
+     AHÍ MISMO (`ads_update_entity`, campo `daily_budget`, en la subunidad
+     correcta de la moneda) antes de dar cualquier otro paso. Una campaña
+     con presupuesto errado no se deja viva NI pausada.
+3. **Inicio SIEMPRE programado: el día siguiente a las 4:44 a.m.** (hora
+   local del alumno). Las campañas nunca arrancan inmediatamente — se crean
+   con `start_time` = mañana 4:44 a.m., para que Meta tenga la ventana del
+   día completa. Así el alumno puede activarlas a cualquier hora sin
+   arrancar desoptimizado: la entrega empieza sola a las 4:44. Verificar el
+   inicio programado en la relectura, igual que el presupuesto.
+4. **El MCP oficial NO tiene modo de prueba (dry_run).** La validación es en
    dos tiempos: (a) mostrar el plan completo al alumno y esperar su OK antes
    de crear NADA; (b) después de crear, releer cada objeto y confirmar
-   presupuesto y estado antes de seguir.
-4. Nunca inventar que algo quedó creado: cada objeto se confirma releyendo
+   presupuesto, inicio programado y estado antes de seguir.
+5. Nunca inventar que algo quedó creado: cada objeto se confirma releyendo
    su ID en Meta.
 
 ## Modo mentor (siempre encendido)
@@ -75,6 +87,11 @@ Preguntá cuánto va a invertir POR DÍA. Las reglas del reto:
 - **Cada creativo necesita ~$6.000 COP/día para que Meta lo pruebe de
   verdad.** Presupuesto ÷ 6.000 = cuántos anuncios subir. **En el reto: entre
   3 y 5.** Con $30.000 → 5 anuncios.
+- **TOPE DURO: con $30.000/día el máximo es 5 anuncios por campaña. NUNCA
+  más.** ¿El alumno quiere más anuncios? Dos caminos: subir el presupuesto
+  (~$6.000 por anuncio adicional) o guardar esas piezas para TEST#2 y la
+  siguiente tanda. Más anuncios con el mismo presupuesto no prueba más —
+  reparte migajas.
 
 Explicale por qué: Meta no reparte la plata entre anuncios — elige uno en las
 primeras horas y le mete casi todo. Subir 10 anuncios con $10.000 no prueba
@@ -91,6 +108,8 @@ primer día aumentan el riesgo de rechazo o restricción.
 CAMPAÑA  "{DD/MM} | {PRODUCTO} VENTAS CBO | TEST#1"
   · Objetivo: Ventas (OUTCOME_SALES) · CBO con el presupuesto diario
   · Puja: mayor volumen (sin límite de costo)
+  · Inicio: PROGRAMADO para el día siguiente, 4:44 a.m. hora local
+  · El {DD/MM} del nombre = la fecha de INICIO (mañana), no la de hoy
   └── CONJUNTO  "Open - [1 Clic]"  (uno solo, sin presupuesto propio)
         · Optimización: conversiones (compra en el sitio web) con el pixel
           del ledger y evento COMPRA
@@ -189,8 +208,11 @@ TEST#1 y guardá TEST#2 para la semana siguiente."*
 Actualizá el ledger (paso 3 ✅, IDs y nombres de campañas, presupuesto,
 fecha) y entregá el cierre:
 
-> **Tus dos campañas de {producto} están creadas y PAUSADAS. Para activarlas:
-> Administrador de anuncios → seleccioná la campaña → botón de encendido.**
+> **Tus dos campañas de {producto} están creadas, PAUSADAS y programadas
+> para arrancar MAÑANA a las 4:44 a.m. Para activarlas: Administrador de
+> anuncios → seleccioná la campaña → botón de encendido. Activálas hoy
+> mismo tranquilo: no gastan un peso hasta las 4:44 — así Meta arranca con
+> el día completo por delante.**
 >
 > Las reglas de operación, grabátelas:
 > 1. **48 horas sin tocar nada.** Apagar un anuncio el primer día es apagarlo
@@ -206,10 +228,11 @@ fecha) y entregá el cierre:
 >    SIEMPRE con las entregas reales en Dropi/Oktopus.
 > 5. Tu CPA máximo es {cpa}: si el costo por compra lo pasa, volvé acá y
 >    revisamos juntos qué está fallando (creativo, precio o landing).
-> 6. **Activá en la madrugada o muy tarde en la noche, nunca a media
->    tarde.** Meta reparte el presupuesto en la ventana del día: una campaña
->    prendida a las 6 pm solo tiene 6 horas para gastar lo de 24 y arranca
->    desoptimizada.
+> 6. **El arranque a las 4:44 a.m. no es capricho:** Meta reparte el
+>    presupuesto en la ventana del día. Una campaña que arranca a las 6 pm
+>    solo tiene 6 horas para gastar lo de 24 y nace desoptimizada. Por eso
+>    todas quedan programadas de madrugada — y si algún día creás una a
+>    mano, programala igual.
 >
 > **Desde mañana, tu rutina diaria es `/reto-4-optimizacion`.** Ahí se
 > decide qué anuncio se apaga, cuándo se escala y cómo se cuida tu plata.
