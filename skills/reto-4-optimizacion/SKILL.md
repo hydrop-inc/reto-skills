@@ -66,6 +66,13 @@ informativo (gasto, impresiones), sin recomendar apagar nada.
 
 ### 3. La regla de oro: gasto por ANUNCIO contra el CPA máximo
 
+**De dónde sale el número:** el CPA máximo NO se calcula acá — viene de la
+construcción del producto (paso 1), cuando quedaron claros los costos
+fijos: costo del proveedor + flete real + el efecto de cancelaciones y
+devoluciones. **Ese número es LA pauta de todas las decisiones de
+optimización.** Si el alumno no lo tiene presente, abrí el ledger y
+mostráselo ANTES de decidir nada — optimizar sin el CPA claro es adivinar.
+
 Leé las métricas de HOY **a nivel de anuncio** (gasto, compras, costo por
 resultado de cada AD). Meta va a concentrar la plata en 1-2 anuncios — es
 normal.

@@ -89,6 +89,9 @@ los $900). NUNCA por debajo del punto de equilibrio.
   (1−devolución). Ejemplo: (137.900−40.000−20.000)×0,64 = **$49.856**.
   Decíselo así: *"si conseguir UNA venta te cuesta más de $49.856 de
   publicidad, estás perdiendo plata. Ese es tu número rey."*
+  **Este número manda TODAS las decisiones de la optimización diaria
+  (paso 4):** anuncio que lo gasta sin traer venta, se apaga. Por eso se
+  calcula ACÁ, con los costos fijos claros — no se improvisa después.
 
 **Chequeo de cordura:** si el precio calculado es menor que 3× el costo del
 proveedor, avisá: en contra entrega, por debajo de 3× el costo el negocio
