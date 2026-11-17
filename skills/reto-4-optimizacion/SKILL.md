@@ -139,8 +139,11 @@ SIEMPRE en la madrugada o muy tarde en la noche (regla 2). Si algún día el
 CPA se pasa del máximo, se congela el escalado hasta que vuelva a la banda.
 
 Después de cada cambio de presupuesto: **releer la campaña** y mostrar el
-número que Meta guardó, en plata normal. El presupuesto en la API va en
-centavos — un error acá es una campaña 100 veces más cara sin ningún aviso.
+número que Meta guardó, en plata normal. El presupuesto en la API va en la
+unidad de la moneda de la cuenta (regla 2 del paso 3): **COP en pesos
+enteros** ($36.000 COP = `36000`, NUNCA `3600000`) y USD en centavos
+(US$12 = `1200`). Un error acá es una campaña 100 veces más cara sin ningún
+aviso.
 
 ### 6. Registrar el día
 
