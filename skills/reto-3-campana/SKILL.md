@@ -12,23 +12,37 @@ description: "Paso 3 del Reto de 0 a 5 Millones: sube la campaña de Meta con la
    intentes pasarlo. Confirmá el estado releyendo cada objeto después de
    crearlo. El alumno los activa CON SU MANO en el Administrador de
    anuncios. Esta skill JAMÁS activa nada que gaste.
-2. **El presupuesto en la API de Meta va en subunidades de la moneda.** En
-   la mayoría (COP, MXN, PEN, USD…) son centavos: $30.000 COP = `3000000`.
-   **EXCEPCIÓN: CLP y PYG van en unidades enteras** ($15.000 CLP =
-   `15000`). Equivocarse acá crea campañas 100 veces más caras o más
-   baratas SIN ningún error visible. Por eso, siempre:
+2. **El presupuesto en la API de Meta va en la unidad que Meta usa para esa
+   moneda, y NO siempre son centavos.** El peso colombiano **NO lleva
+   centavos en Meta**: $30.000 COP se escribe `30000`. Multiplicar por 100
+   es el error que creó campañas de **$3.000.000 COP diarios en vez de
+   $30.000** dos veces (28-ago-2026 y 17-nov-2026).
+
+   | Moneda de la cuenta | Cómo se escribe | Ejemplo |
+   |---|---|---|
+   | **COP** (Colombia), **CLP** (Chile), **PYG** (Paraguay) | En pesos enteros, SIN multiplicar | $30.000 COP → `30000` |
+   | **USD** (Ecuador, Panamá, El Salvador…), **MXN**, **PEN**, **GTQ**, **BOB**, **DOP**, **ARS** | En centavos, multiplicar × 100 | US$10 → `1000` |
+
+   Si la moneda no está en la tabla, o hay cualquier duda, se verifica con
+   `ads_get_ad_accounts`: el campo `min_daily_budget_cents` viene en la
+   misma unidad que hay que usar. Una cuenta COP muestra algo como `3316`
+   (= $3.316 COP, menos de un dólar: o sea, pesos enteros). Una cuenta USD
+   muestra `100` (= US$1,00: o sea, centavos). Si al leerlo como pesos
+   enteros da un mínimo absurdo (por ejemplo $33 COP), la unidad es otra.
+   Equivocarse acá crea campañas 100 veces más caras o más baratas SIN
+   ningún error visible. Por eso, siempre:
    - Confirmar la moneda real de la cuenta ANTES de calcular (del ledger;
-     si no está, verificarla en vivo o pedirle al alumno que la lea en su
-     Administrador de anuncios — NUNCA asumir).
+     si no está, verificarla en vivo con `ads_get_ad_accounts` o pedirle al
+     alumno que la lea en su Administrador de anuncios — NUNCA asumir).
+   - Antes de crear, decirle al alumno el número exacto que se va a enviar
+     y lo que significa en plata ("voy a enviar `30000` = $30.000 COP por
+     día").
    - Después de crear, RELEER la campaña y mostrarle al alumno el
      presupuesto que Meta guardó, en plata normal ("$30.000 COP por día").
-   - **PASÓ DE VERDAD (28-ago-2026):** en una corrida real la campaña quedó
-     creada con **$3.000.000 COP diarios en vez de $30.000** — cien veces el
-     presupuesto, sin ningún error en pantalla. Por eso la relectura NO es
-     opcional: si el número mostrado no coincide con lo acordado, se corrige
-     AHÍ MISMO (`ads_update_entity`, campo `daily_budget`, en la subunidad
-     correcta de la moneda) antes de dar cualquier otro paso. Una campaña
-     con presupuesto errado no se deja viva NI pausada.
+     Si el número no coincide con lo acordado, se corrige AHÍ MISMO
+     (`ads_update_entity`, campo `daily_budget`, con la unidad de la tabla)
+     antes de dar cualquier otro paso. Una campaña con presupuesto errado no
+     se deja viva NI pausada.
 3. **Inicio SIEMPRE programado: el día siguiente a las 4:44 a.m.** (hora
    local del alumno). Las campañas nunca arrancan inmediatamente — se crean
    con `start_time` = mañana 4:44 a.m., para que Meta tenga la ventana del
@@ -171,8 +185,9 @@ Con el MCP oficial de Meta Ads:
    - ⚠️ **Todo creativo de video EXIGE una miniatura** (imagen): subí un
      frame del video como imagen y usá su hash.
 2. `ads_create_campaign` — objetivo OUTCOME_SALES, `buying_type: AUCTION`
-   (obligatorio), CBO con el presupuesto en la subunidad correcta de la
-   moneda (regla 2) → guardar el ID y confirmar que nació PAUSED.
+   (obligatorio), CBO con el presupuesto en la unidad correcta de la
+   moneda (regla 2: COP en pesos enteros, USD en centavos) → guardar el ID
+   y confirmar que nació PAUSED.
 3. `ads_create_ad_set` — "Open - [1 Clic]", `billing_event: IMPRESSIONS`
    (obligatorio), optimización a compra con el pixel del ledger y evento
    COMPRA, targeting del punto 2 con las exclusiones.
