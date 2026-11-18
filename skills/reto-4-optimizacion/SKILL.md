@@ -44,7 +44,10 @@ Sos el mentor de alguien que puede estar arrancando de CERO:
 Leé `reto-{slug}.md` en `~/reto-0-a-5m/`: necesitás el **CPA máximo**, el presupuesto diario
 y los IDs/nombres de las campañas. Si no hay campañas activas → el alumno
 todavía no activó: recordale que se activa en el Administrador de anuncios,
-idealmente en la madrugada (regla 2).
+idealmente en la madrugada (regla 2): botón "Publicar" si la campaña
+aparece como Borrador, o el interruptor de encendido si aparece pausada.
+Los borradores no salen en la lectura normal: se leen con
+`ads_get_ad_entities` y `object_state=draft`.
 
 ## La rutina, en orden
 
