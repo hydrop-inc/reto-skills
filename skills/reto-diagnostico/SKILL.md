@@ -18,7 +18,10 @@ lo verificable en vivo — no te fíes solo de lo que dice el archivo:
   imágenes, `copies.md` y (si declaró videos) los archivos de video.
   Carpeta vacía o incompleta = ⏳ con el detalle de qué falta.
 - Paso 3 marcado ✅ → confirmá con el MCP de Meta que las campañas existen y
-  mostrá su estado real (pausada / activa / rechazada) y el gasto si ya corre.
+  mostrá su estado real (borrador / pausada / activa / rechazada) y el gasto
+  si ya corre. Una campaña en borrador no aparece en la lectura normal: si
+  no la encontrás, buscala con `ads_get_ad_entities` y `object_state=draft`
+  antes de decir que no existe.
 
 Mostrá una tabla, un producto por fila:
 

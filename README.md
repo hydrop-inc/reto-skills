@@ -64,8 +64,9 @@ Cuando mejoremos las skills, actualiza con:
 
 ## Las 3 reglas de la casa
 
-1. **La IA nunca prende tus campañas.** Todo se crea PAUSADO y tú lo activas
-   con tu mano. Tu plata la controlas tú.
+1. **La IA nunca prende tus campañas.** Todo se crea sin prender (en
+   borrador o pausado) y tú lo publicas o lo activas con tu mano. Tu plata
+   la controlas tú.
 2. **Nada se publica en la primera pasada.** Revisa con carácter lo que la
    IA te entregue y pídele cambios. Hay dos tipos de personas: las que hacen
    lo que la IA dice, y las que le dicen a la IA qué hacer.

@@ -1,17 +1,30 @@
 ---
 name: reto-3-campana
-description: "Paso 3 del Reto de 0 a 5 Millones: sube la campaña de Meta con la estructura probada del reto — campaña de Ventas CBO optimizada a compra, un solo conjunto abierto con Advantage+, exclusiones geográficas de Colombia, 3-5 anuncios del banco, y la campaña TEST#2 con los creativos restantes. Todo nace PAUSADO: el alumno activa a mano. Usar cuando el alumno diga 'subí la campaña', 'lancemos los anuncios', 'montá la pauta', '/reto-3-campana', o después de completar reto-2-creativos. Requiere el archivo reto-{slug}.md con pasos 1 y 2 completos."
+description: "Paso 3 del Reto de 0 a 5 Millones: sube la campaña de Meta con la estructura probada del reto — campaña de Ventas CBO optimizada a compra, un solo conjunto abierto con Advantage+, exclusiones geográficas de Colombia, 3-5 anuncios del banco, y la campaña TEST#2 con los creativos restantes. Nada nace prendido (borrador o pausado): el alumno publica o activa a mano. Usar cuando el alumno diga 'subí la campaña', 'lancemos los anuncios', 'montá la pauta', '/reto-3-campana', o después de completar reto-2-creativos. Requiere el archivo reto-{slug}.md con pasos 1 y 2 completos."
 ---
 
 # Reto · Paso 3 — La campaña
 
 ## Reglas de plata — LEER PRIMERO, van por encima de todo
 
-1. **TODO nace PAUSADO.** El MCP oficial de Meta crea campañas, conjuntos y
-   anuncios SIEMPRE en estado PAUSED — no existe un parámetro `status`, no
-   intentes pasarlo. Confirmá el estado releyendo cada objeto después de
-   crearlo. El alumno los activa CON SU MANO en el Administrador de
-   anuncios. Esta skill JAMÁS activa nada que gaste.
+1. **NADA nace prendido.** El MCP oficial de Meta no tiene parámetro
+   `status` (no intentes pasarlo) y, según la cuenta, crea en UNO de dos
+   modos que no se pueden elegir de antemano:
+   - **Borrador** (la respuesta trae `status=DRAFT` / `is_draft: true`):
+     la campaña queda en el borrador del Administrador de anuncios, sin
+     publicar. Se relee con `ads_get_ad_entities` y `object_state=draft`.
+     El alumno la prende con el botón **"Publicar"** (o "Revisar y
+     publicar"). Al publicarse sale ACTIVA, pero como el inicio está
+     programado (regla 3) no gasta antes de las 4:44 a.m.
+   - **Pausado** (`status=PAUSED`): el alumno la prende con el
+     interruptor de encendido.
+
+   Fijate cuál de los dos devolvió Meta y decíselo al alumno con esas
+   palabras exactas: si le decís "prendé el interruptor" y la campaña está
+   en borrador, no lo va a encontrar. Confirmá el estado releyendo cada
+   objeto después de crearlo. El alumno publica o activa CON SU MANO en el
+   Administrador de anuncios. Esta skill JAMÁS llama
+   `ads_activate_entity` ni activa nada que gaste.
 2. **El presupuesto en la API de Meta va en la unidad que Meta usa para esa
    moneda, y NO siempre son centavos.** El peso colombiano **NO lleva
    centavos en Meta**: $30.000 COP se escribe `30000`. Multiplicar por 100
@@ -42,7 +55,7 @@ description: "Paso 3 del Reto de 0 a 5 Millones: sube la campaña de Meta con la
      Si el número no coincide con lo acordado, se corrige AHÍ MISMO
      (`ads_update_entity`, campo `daily_budget`, con la unidad de la tabla)
      antes de dar cualquier otro paso. Una campaña con presupuesto errado no
-     se deja viva NI pausada.
+     se deja viva, NI pausada, NI en borrador.
 3. **Inicio SIEMPRE programado: el día siguiente a las 4:44 a.m.** (hora
    local del alumno). Las campañas nunca arrancan inmediatamente — se crean
    con `start_time` = mañana 4:44 a.m., para que Meta tenga la ventana del
@@ -55,6 +68,15 @@ description: "Paso 3 del Reto de 0 a 5 Millones: sube la campaña de Meta con la
    presupuesto, inicio programado y estado antes de seguir.
 5. Nunca inventar que algo quedó creado: cada objeto se confirma releyendo
    su ID en Meta.
+6. **La imagen va amarrada con su hash, NUNCA con un link suelto.** Cada
+   imagen se sube primero a la biblioteca de la cuenta
+   (`ads_creative_upload_media`), que devuelve un `image_hash`. En el
+   anuncio, ese hash va en `object_story_spec.link_data.image_hash`. Un
+   `image_url` suelto en el creativo crea el anuncio SIN ningún error,
+   pero en el Administrador de anuncios queda **sin imagen**. Así se
+   crearon 25 anuncios vacíos el 18-nov-2026. "Validado y sin errores" NO
+   significa que la imagen esté: se verifica que cada anuncio tenga su
+   hash (sección 4, paso 5).
 
 ## Modo mentor (siempre encendido)
 
@@ -169,8 +191,8 @@ Armá el resumen en lenguaje humano y esperá el OK:
 
 > Voy a crear: campaña "{nombre}" con ${X} diarios ({moneda}), 1 conjunto
 > abierto a todo {país} (menos {exclusiones}), {N} anuncios con estos
-> creativos: {lista}. TODO PAUSADO — no gasta nada hasta que vos la
-> actives. ¿La creo?
+> creativos: {lista}. NADA queda prendido: no gasta ni un peso hasta que
+> vos la publiques o la actives. ¿La creo?
 
 ## 4. Crear, en este orden, releyendo cada paso
 
@@ -179,6 +201,9 @@ Con el MCP oficial de Meta Ads:
    directa (links de Drive/Dropbox NO sirven) o, para imágenes locales, el
    modo de archivo local. Video desde archivo local:
    `ads_creative_upload_video`.
+   - **Anotá el `image_hash` de cada imagen** (en el ledger, junto al nombre
+     del archivo: AD01 → hash…). Ese hash es lo que se amarra al anuncio
+     en el paso 4 (regla 6).
    - ⚠️ **Los videos procesan en segundo plano**: esperá a que
      `ads_get_ad_videos` muestre el video listo (ready) antes de crear el
      creativo.
@@ -187,12 +212,40 @@ Con el MCP oficial de Meta Ads:
 2. `ads_create_campaign` — objetivo OUTCOME_SALES, `buying_type: AUCTION`
    (obligatorio), CBO con el presupuesto en la unidad correcta de la
    moneda (regla 2: COP en pesos enteros, USD en centavos) → guardar el ID
-   y confirmar que nació PAUSED.
+   y confirmar en qué estado nació: borrador o pausada (regla 1).
+   - ⚠️ **Catálogo pegado solo:** si la cuenta tiene un catálogo de
+     productos (por ejemplo de otra tienda del mismo negocio), Meta puede
+     pegarlo automáticamente a la campaña de Ventas. Releé la campaña: si
+     su `promoted_object` trae un `product_catalog_id`, quitalo AHÍ MISMO
+     con `ads_update_entity` (`promoted_object: {}`) y releé otra vez.
+     Una vez publicada, el catálogo ya no se puede quitar ni cambiar, y la
+     campaña queda amarrada a productos que no son los del alumno.
 3. `ads_create_ad_set` — "Open - [1 Clic]", `billing_event: IMPRESSIONS`
    (obligatorio), optimización a compra con el pixel del ledger y evento
    COMPRA, targeting del punto 2 con las exclusiones.
 4. `ads_create_creative` + `ads_create_ad` por cada anuncio (AD01…), con la
    página de Facebook e Instagram del ledger.
+   - **Imagen:** `object_story_spec.link_data.image_hash` = el hash que
+     anotaste en el paso 1. NUNCA un `image_url` suelto (regla 6). Forma
+     mínima de un anuncio de imagen:
+     ```json
+     {"object_story_spec": {
+        "page_id": "<PÁGINA>",
+        "instagram_user_id": "<INSTAGRAM>",
+        "link_data": {
+          "image_hash": "<HASH DEL PASO 1>",
+          "link": "<URL DE LA LANDING>",
+          "message": "<texto principal>",
+          "name": "<título>",
+          "call_to_action": {"type": "ORDER_NOW", "value": {"link": "<URL DE LA LANDING>"}}
+        }}}
+     ```
+   - **Video:** `object_story_spec.video_data` con el `video_id` y, como
+     miniatura, el `image_hash` del frame que subiste.
+   - **Instagram:** el `instagram_user_id` va DENTRO de
+     `object_story_spec`. Sin él, el anuncio solo sale en Facebook. Si la
+     página del alumno no tiene Instagram, decíselo: sus anuncios solo van
+     a salir en Facebook.
    - **Cada AD lleva un combo distinto de copy**: AD01 = AIDA#1 + título#1 +
      descripción#1, AD02 = PAS#1 + título#2 + descripción#2, y así — se
      prueba copy Y creativo a la vez. Anotá en el ledger qué combo lleva
@@ -201,6 +254,14 @@ Con el MCP oficial de Meta Ads:
    normal, conjunto (con los nombres de las exclusiones que Meta devolvió),
    anuncios y su estado. Si Meta rechaza un anuncio en revisión, decirlo tal
    cual con el motivo.
+   - **Verificación de imágenes (bloqueante):** en la relectura, CADA
+     anuncio debe tener su `image_hash` (o `video_id`) dentro del creativo.
+     En modo borrador se lee en `ad_drafts` →
+     `values.creative.new.object_story_spec.link_data.image_hash`. Si un
+     anuncio no lo tiene, se corrige con `ads_update_entity` pasándole el
+     creativo completo con el hash, antes de entregar.
+   - Después pedile al alumno que abra UN anuncio en el Administrador de
+     anuncios y confirme que ve la imagen. Recién ahí se da por cerrado.
 
 ## 5. TEST#2 — la segunda mitad del banco
 
@@ -212,7 +273,8 @@ o AD06 en adelante). **Cada anuncio conserva su combo de copy por anuncio**
 combos. Así Meta prueba el doble de piezas sin que compitan por el mismo
 presupuesto.
 
-Crearla igual que la primera, nombre "...| TEST#2", TODO PAUSADO.
+Crearla igual que la primera, nombre "...| TEST#2", sin prender nada
+(borrador o pausada, según el modo que devuelva Meta).
 
 ⚠️ Avisá textual: *"si activás las DOS campañas, tu gasto diario es el DOBLE
 del presupuesto ({2X} por día). Si tu plata alcanza para una sola, activá
@@ -221,13 +283,18 @@ TEST#1 y guardá TEST#2 para la semana siguiente."*
 ## 6. La entrega y las reglas de después
 
 Actualizá el ledger (paso 3 ✅, IDs y nombres de campañas, presupuesto,
-fecha) y entregá el cierre:
+fecha) y entregá el cierre. De las dos formas de prender, dejá SOLO la que
+corresponde al estado que devolvió Meta (regla 1):
 
-> **Tus dos campañas de {producto} están creadas, PAUSADAS y programadas
-> para arrancar MAÑANA a las 4:44 a.m. Para activarlas: Administrador de
-> anuncios → seleccioná la campaña → botón de encendido. Activálas hoy
-> mismo tranquilo: no gastan un peso hasta las 4:44 — así Meta arranca con
-> el día completo por delante.**
+> **Tus dos campañas de {producto} están creadas, SIN PRENDER y
+> programadas para arrancar MAÑANA a las 4:44 a.m. Para prenderlas:
+> Administrador de anuncios →**
+> - **si aparecen como "Borrador": botón "Publicar" (o "Revisar y
+>   publicar");**
+> - **si aparecen pausadas: seleccioná la campaña → botón de encendido.**
+>
+> **Prendélas hoy mismo tranquilo: no gastan un peso hasta las 4:44. Así
+> Meta arranca con el día completo por delante.**
 >
 > Las reglas de operación, grabátelas:
 > 1. **48 horas sin tocar nada.** Apagar un anuncio el primer día es apagarlo
